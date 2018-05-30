@@ -26,8 +26,8 @@ do
 			replace="\\"
 			str_windows=${file//$find/$replace}
 			
-			echo -e "If you're using \e[31mgitBash\e[0m: Run \e[34m./vendor/bin/phpcbf --standard=PSR2 $file \e[0mfor automatic fix"
-			echo -e "Else if you're using \e[31mWindows CMD/PowerShell\e[0m: Run \e[34mvendor\\\bin\phpcbf --standard=PSR2 --no-patch $str_windows \e[0mfor automatic fix"
+			echo -e "If you're using \e[31mgitBash\e[0m: Run \e[33m./vendor/bin/phpcbf --standard=PSR2 $file \e[0mfor automatic fix"
+			echo -e "Else if you're using \e[31mWindows CMD/PowerShell\e[0m: Run \e[33mvendor\\\bin\phpcbf --standard=PSR2 --no-patch $str_windows \e[0mfor automatic fix"
 		    echo "or fix it manually."
 			exit 1 # exit with failure status
 		fi
