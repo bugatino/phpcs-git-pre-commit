@@ -23,7 +23,7 @@ Or alternatively, include a dependency for `bugatino/phpcs-git-pre-commit` in yo
 ```
 To enable code sniff, аdd to `post-install-cmd` and `post-update-cmd` in `composer.json` installation script:
 ```
-"script": {
+"scripts": {
     "post-install-cmd": [
         "sh ./vendor/bugatino/phpcs-git-pre-commit/src/setup.sh"
     ],
