@@ -1,15 +1,17 @@
 {
-    "name": "smgladkovskiy/phpcs-git-pre-commit",
-    "description": "PHPCS check before commit",
+    "name": "bugatino/phpcs-git-pre-commit",
+    "description": "Setup PHPCS for checking PSR-2 standard using composer and git pre-commit hook.",
     "type": "scripts",
     "license": "MIT",
+    "keywords": ["git","pre-commit", "git hook", "psr2", "phpcs", "php"],
+    "homepage": "https://github.com/bugatino/phpcs-git-pre-commit",
     "authors": [
         {
-            "name": "Sergey Gladkovskiy",
-            "email": "smgladkovskiy@gmail.com"
+            "name": "Dao Manh Thang",
+            "email": "manhthang177@gmail.com"
         }
     ],
     "require": {
-        "squizlabs/php_codesniffer": "^2.7"
+        "squizlabs/php_codesniffer": "^3.0"
     }
 }
