@@ -1,43 +1,37 @@
-#!/bin/sh
+#!/bin/bash
+echo -e "Running \e[31mPHP Lint\e[0m & \e[31mPHP Code Sniffer\e[0m for checking code error and PSR2 standard..."
+# php files that are staged in git but not deleted
 
-PROJECT=`php -r "echo dirname(dirname(dirname(realpath('$0'))));"`
-STAGED_FILES_CMD=`git diff --cached --name-only --diff-filter=ACMR HEAD | grep \\\\.php`
+PHP_FILES=$(git diff --diff-filter=d --cached --name-only | grep -E '\.php$')
+JS_FILES=$(git diff --diff-filter=d --cached --name-only | grep -E '\.js$')
 
-# Determine if a file list is passed
-if [ "$#" -eq 1 ]
-then
-    oIFS=$IFS
-    IFS='
-    '
-    SFILES="$1"
-    IFS=$oIFS
-fi
-SFILES=${SFILES:-$STAGED_FILES_CMD}
-
-echo "Checking PHP Lint..."
-for FILE in $SFILES
+for file in $PHP_FILES
 do
-    php -l -d display_errors=0 $PROJECT/$FILE
-    if [ $? != 0 ]
+	echo -e "\e[32m" $file "\e[0m"
+	echo -e "Running \e[31mPHP Lint\e[0m for checking Syntax Error!"
+	php -l -d display_errors=0 $file
+	if [ $? != 0 ]
     then
-        echo "Fix the error before commit."
-        exit 1
+        echo -e "\e[31mFix the error before commit.\e[0m"
+        exit 1 # exit with failure status
     fi
-    FILES="$FILES $PROJECT/$FILE"
+ 
+	if [ "$CHECK" != "no" ]; then
+		echo -e "\nRunning \e[31mCode Sniffer\e[0m. Code standard \e[31mPSR2\e[0m."
+		./vendor/bin/phpcs --standard=PSR2 --encoding=utf-8 -n -p $file
+		if [ $? -ne 0 ]; then
+			echo -e "Fix the error before commit please"
+			
+			find="/"
+			replace="\\"
+			str_windows=${file//$find/$replace}
+			
+			echo -e "If you're using \e[31mgitBash\e[0m: Run \e[34m./vendor/bin/phpcbf --standard=PSR2 $file \e[0mfor automatic fix"
+			echo -e "Else if you're using \e[31mWindows CMD/PowerShell\e[0m: Run \e[34mvendor\\\bin\phpcbf --standard=PSR2 --no-patch $str_windows \e[0mfor automatic fix"
+		    echo "or fix it manually."
+			exit 1 # exit with failure status
+		fi
+	else
+		echo -e "\e[31mCode Sniffer is skipped!\e[0m"
+	fi
 done
-
-if [ "$FILES" != "" ]
-then
-    echo "Running Code Sniffer. Code standard PSR2."
-    ./vendor/bin/phpcs --standard=PSR2 --encoding=utf-8 -n -p $FILES
-    if [ $? != 0 ]
-    then
-        echo "Fix the error before commit!"
-        echo "Run"
-        echo "  ./vendor/bin/phpcbf $FILES"
-        echo "for automatic fix or fix it manually."
-        exit 1
-    fi
-fi
-
-exit $?
