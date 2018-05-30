@@ -32,7 +32,7 @@ To enable code sniff, аdd to `post-install-cmd` and `post-update-cmd` in `compo
     ]
 }
 ```
-Then run `composer install` or `composer update`. `pre-commit` hook will be installed or updated if it already exists.
+Then run `composer install` or `composer update` using `Git Bash`. `pre-commit` hook will be installed or updated if it already exists.
 
 ## Usage
 
